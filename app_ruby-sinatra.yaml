@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ruby-sinatra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ruby-sinatra
+  template:
+    metadata:
+      labels:
+        app: ruby-sinatra
+    spec:
+      containers:
+        - name: ruby-sinatra
+          image: ghcr.io/pnvnd/ruby-sinatra:latest
+          ports:
+            - containerPort: 8888
+          imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ruby-sinatra
+spec:
+  selector:
+    app: ruby-sinatra
+  ports:
+    - port: 8888
+      targetPort: 8888
+  type: LoadBalancer

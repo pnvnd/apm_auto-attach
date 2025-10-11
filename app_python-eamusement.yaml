@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-eamusement
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-eamusement
+  template:
+    metadata:
+      labels:
+        app: python-eamusement
+    spec:
+      containers:
+        - name: python-eamusement
+          image: ghcr.io/pnvnd/pyeamu:main
+          ports:
+            - containerPort: 8000
+          imagePullPolicy: IfNotPresent
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: python-eamusement
+spec:
+  selector:
+    app: python-eamusement
+  ports:
+    - port: 8000
+      targetPort: 8000
+  type: LoadBalancer
