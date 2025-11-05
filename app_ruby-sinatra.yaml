@@ -11,6 +11,7 @@ spec:
     metadata:
       labels:
         app: ruby-sinatra
+        language: ruby
     spec:
       containers:
         - name: ruby-sinatra

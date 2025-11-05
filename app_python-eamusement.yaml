@@ -11,6 +11,7 @@ spec:
     metadata:
       labels:
         app: python-eamusement
+        language: python
     spec:
       containers:
         - name: python-eamusement
