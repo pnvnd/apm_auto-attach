@@ -32,7 +32,7 @@ kubectl get instrumentation -n newrelic
 Simplified `instrumentation-java.yaml` file with comments removed for clarity. Note here the only real change from the default is the addition of `newrelic/` on line 9 before the image. This was added to avoid issues downloading the image. Assume this is for a `java-spring` app and rename the labels if needed.
 
 ```yaml
-apiVersion: newrelic.com/v1alpha2
+apiVersion: newrelic.com/v1beta2
 kind: Instrumentation
 metadata:
   name: newrelic-instrumentation-java
@@ -44,9 +44,9 @@ spec:
     env:
   podLabelSelector:
     matchExpressions:
-      - key: "app"
+      - key: "language"
         operator: "In"
-        values: ["java-spring"]
+        values: ["java"]
 ```
 
 Apply changes using this:
@@ -56,8 +56,8 @@ kubectl apply -f ./instrumentation-java.yaml -n newrelic
 ## .NET
 Similar to Java example above, but for .NET (rename the labels as needed).
 
-```yml
-apiVersion: newrelic.com/v1alpha2
+```yaml
+apiVersion: newrelic.com/v1beta2
 kind: Instrumentation
 metadata:
   name: newrelic-instrumentation-dotnet
@@ -69,9 +69,9 @@ spec:
     env:
   podLabelSelector:
     matchExpressions:
-      - key: "app"
+      - key: "language"
         operator: "In"
-        values: ["dotnet-webapi"]
+        values: ["dotnet"]
 ```
 
 Apply changes with:
@@ -82,8 +82,8 @@ kubectl apply -f ./instrumentation-dotnet.yaml -n newrelic
 ## Python
 Similar to the Java and .NET examples above but for python. Change labels as needed.
 
-```shell
-apiVersion: newrelic.com/v1alpha2
+```yaml
+apiVersion: newrelic.com/v1beta2
 kind: Instrumentation
 metadata:
   name: newrelic-instrumentation-python
@@ -95,9 +95,9 @@ spec:
     env:
   podLabelSelector:
     matchExpressions:
-      - key: "app"
+      - key: "language"
         operator: "In"
-        values: ["python-eamusement"]
+        values: ["python"]
 ```
 
 Apply changes with
@@ -108,8 +108,8 @@ kubectl apply -f ./instrumentation-python.yaml -n newrelic
 ## Ruby
 Similar to the Java, .NET, and Python examples above but for Ruby. Change labels as needed.
 
-```shell
-apiVersion: newrelic.com/v1alpha2
+```yaml
+apiVersion: newrelic.com/v1beta2
 kind: Instrumentation
 metadata:
   name: newrelic-instrumentation-ruby
@@ -118,12 +118,11 @@ spec:
   agent:
     language: ruby
     image: newrelic/newrelic-ruby-init:latest
-    env:
   podLabelSelector:
     matchExpressions:
-      - key: "app"
+      - key: "language"
         operator: "In"
-        values: ["ruby-sinatra"]
+        values: ["ruby"]
 ```
 
 Apply changes with
@@ -174,6 +173,7 @@ spec:
     metadata:
       labels:
         app: java-spring
+        language: java
     spec:
       containers:
         - name: java-spring
@@ -218,6 +218,7 @@ spec:
     metadata:
       labels:
         app: dotnet-webapi
+        language: dotnet
     spec:
       containers:
         - name: dotnet-webapi
@@ -263,6 +264,7 @@ spec:
     metadata:
       labels:
         app: python-eamusement
+        language: python
     spec:
       containers:
         - name: python-eamusement
@@ -307,6 +309,7 @@ spec:
     metadata:
       labels:
         app: ruby-sinatra
+        language: ruby
     spec:
       containers:
         - name: ruby-sinatra
