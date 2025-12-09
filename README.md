@@ -5,7 +5,16 @@ Once you have Minikube somewhere in your PATH run these commands:
 minikube start -p my-cluster
 ```
 
-Go to New Relic and go through the Kubernetes Instrumentation (guided install) to get the script/helm chart to install `nri-bundle` and the `k8s-agents-operator`.
+Go to New Relic and go through the Kubernetes Instrumentation (guided install) to get the script/helm chart to install `nri-bundle` and the `k8s-agents-operator`. Otherwise, this command will work as well:
+
+```
+helm repo add k8s-agents-operator https://newrelic.github.io/k8s-agents-operator
+helm upgrade --install k8s-agents-operator k8s-agents-operator/k8s-agents-operator `
+  --namespace newrelic `
+  --create-namespace `
+  --set licenseKey=XXXX....FFFFNRAL
+```
+
 
 # Instrumentation Files
 To modify your cluster with these `yaml` files, do this:
@@ -337,3 +346,11 @@ Update your `k8s-agents-operator` using this command (change versions as needed)
 helm upgrade --install k8s-agents-operator k8s-agents-operator/k8s-agents-operator --namespace newrelic
 ```
  
+# Optional
+Add New Relic eBPF for everything else:
+```
+helm repo add newrelic https://helm-charts.newrelic.com
+helm repo update 
+kubectl create namespace "newrelic"
+helm upgrade --install nr-ebpf-agent newrelic/nr-ebpf-agent --version=0.2.6 --set licenseKey=XXXX....FFFFNRAL --set cluster="my-cluster" --namespace=newrelic
+```

@@ -1,4 +1,3 @@
-
 apiVersion: newrelic.com/v1beta2
 kind: Instrumentation
 metadata:
